@@ -3,547 +3,666 @@ local MainFrame = Instance.new("Frame")
 local TopBar = Instance.new("Frame")
 local Title = Instance.new("TextLabel")
 local CloseButton = Instance.new("TextButton")
-local LeftPanel = Instance.new("Frame")
-local RightPanel = Instance.new("Frame")
-local FunctionButton = Instance.new("TextButton")
-local ScriptButton = Instance.new("TextButton")
-local AuthorButton = Instance.new("TextButton")
+local LeftButtons = Instance.new("Frame")
+local RightContent = Instance.new("Frame")
+local UIScale = Instance.new("UIScale")
 
-ScreenGui.Name = "HelloUI"
-ScreenGui.Parent = game:GetService("CoreGui") -- 更稳定的父级
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling -- 确保UI在最上层
+ScreenGui.Name = "HelloPoisonUI"
+ScreenGui.Parent = game:GetService("CoreGui") or game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
 MainFrame.Name = "MainFrame"
 MainFrame.Parent = ScreenGui
-MainFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 45) -- 暗色背景
+MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 MainFrame.BorderSizePixel = 0
 MainFrame.Position = UDim2.new(0.3, 0, 0.3, 0)
-MainFrame.Size = UDim2.new(0, 350, 0, 250) -- 更紧凑的尺寸
+MainFrame.Size = UDim2.new(0, 400, 0, 250)
 MainFrame.Active = true
 MainFrame.Draggable = true
-MainFrame.ClipsDescendants = true -- 防止内容溢出
 
-local MainCorner = Instance.new("UICorner")
-MainCorner.CornerRadius = UDim.new(0, 6)
-MainCorner.Parent = MainFrame
+UIScale.Parent = MainFrame
 
 TopBar.Name = "TopBar"
 TopBar.Parent = MainFrame
-TopBar.BackgroundColor3 = Color3.fromRGB(30, 30, 35)
+TopBar.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 TopBar.BorderSizePixel = 0
 TopBar.Size = UDim2.new(1, 0, 0, 30)
 
-local TopCorner = Instance.new("UICorner")
-TopCorner.CornerRadius = UDim.new(0, 6)
-TopCorner.Parent = TopBar
-
 Title.Name = "Title"
 Title.Parent = TopBar
+Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Title.BackgroundTransparency = 1.0
 Title.Size = UDim2.new(0.8, 0, 1, 0)
-Title.Font = Enum.Font.GothamBold -- 更现代的字体
+Title.Font = Enum.Font.SourceSansBold
 Title.Text = "hello☠️"
-Title.TextColor3 = Color3.fromRGB(255, 85, 85) -- 红色标题
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 Title.TextSize = 18
-Title.TextXAlignment = Enum.TextXAlignment.Left
-Title.Position = UDim2.new(0.05, 0, 0, 0)
 
 CloseButton.Name = "CloseButton"
 CloseButton.Parent = TopBar
-CloseButton.BackgroundColor3 = Color3.fromRGB(255, 60, 60)
+CloseButton.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
 CloseButton.BorderSizePixel = 0
-CloseButton.Position = UDim2.new(0.85, 0, 0.15, 0)
-CloseButton.Size = UDim2.new(0, 22, 0, 22)
-CloseButton.Font = Enum.Font.GothamBold
-CloseButton.Text = "×" -- 更好的关闭符号
+CloseButton.Position = UDim2.new(0.9, 0, 0.1, 0)
+CloseButton.Size = UDim2.new(0, 25, 0, 25)
+CloseButton.Font = Enum.Font.SourceSansBold
+CloseButton.Text = "X"
 CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 CloseButton.TextSize = 18
 
-local CloseCorner = Instance.new("UICorner")
-CloseCorner.CornerRadius = UDim.new(1, 0)
-CloseCorner.Parent = CloseButton
+LeftButtons.Name = "LeftButtons"
+LeftButtons.Parent = MainFrame
+LeftButtons.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+LeftButtons.BorderSizePixel = 0
+LeftButtons.Position = UDim2.new(0, 0, 0, 30)
+LeftButtons.Size = UDim2.new(0, 100, 0, 220)
 
-LeftPanel.Name = "LeftPanel"
-LeftPanel.Parent = MainFrame
-LeftPanel.BackgroundColor3 = Color3.fromRGB(35, 35, 40)
-LeftPanel.BorderSizePixel = 0
-LeftPanel.Position = UDim2.new(0, 0, 0, 30)
-LeftPanel.Size = UDim2.new(0.3, 0, 0.9, 0)
+RightContent.Name = "RightContent"
+RightContent.Parent = MainFrame
+RightContent.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+RightContent.BorderSizePixel = 0
+RightContent.Position = UDim2.new(0, 100, 0, 30)
+RightContent.Size = UDim2.new(0, 300, 0, 220)
 
-RightPanel.Name = "RightPanel"
-RightPanel.Parent = MainFrame
-RightPanel.BackgroundColor3 = Color3.fromRGB(45, 45, 50)
-RightPanel.BorderSizePixel = 0
-RightPanel.Position = UDim2.new(0.3, 0, 0, 30)
-RightPanel.Size = UDim2.new(0.7, 0, 0.9, 0)
-
-local buttonHeight = 0.25
-local buttonSpacing = 0.05
-
-FunctionButton.Name = "FunctionButton"
-FunctionButton.Parent = LeftPanel
-FunctionButton.BackgroundColor3 = Color3.fromRGB(55, 55, 60)
-FunctionButton.BorderSizePixel = 0
-FunctionButton.Position = UDim2.new(0.1, 0, buttonSpacing, 0)
-FunctionButton.Size = UDim2.new(0.8, 0, buttonHeight, 0)
-FunctionButton.Font = Enum.Font.Gotham
-FunctionButton.Text = "功能"
-FunctionButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-FunctionButton.TextSize = 14
-FunctionButton.AutoButtonColor = false -- 禁用默认按钮效果
-
-local ButtonCorner = Instance.new("UICorner")
-ButtonCorner.CornerRadius = UDim.new(0, 4)
-ButtonCorner.Parent = FunctionButton
-
-ScriptButton.Name = "ScriptButton"
-ScriptButton.Parent = LeftPanel
-ScriptButton.BackgroundColor3 = Color3.fromRGB(55, 55, 60)
-ScriptButton.BorderSizePixel = 0
-ScriptButton.Position = UDim2.new(0.1, 0, buttonSpacing*2 + buttonHeight, 0)
-ScriptButton.Size = UDim2.new(0.8, 0, buttonHeight, 0)
-ScriptButton.Font = Enum.Font.Gotham
-ScriptButton.Text = "脚本"
-ScriptButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-ScriptButton.TextSize = 14
-ScriptButton.AutoButtonColor = false
-
-local ScriptCorner = Instance.new("UICorner")
-ScriptCorner.CornerRadius = UDim.new(0, 4)
-ScriptCorner.Parent = ScriptButton
-
-AuthorButton.Name = "AuthorButton"
-AuthorButton.Parent = LeftPanel
-AuthorButton.BackgroundColor3 = Color3.fromRGB(55, 55, 60)
-AuthorButton.BorderSizePixel = 0
-AuthorButton.Position = UDim2.new(0.1, 0, buttonSpacing*3 + buttonHeight*2, 0)
-AuthorButton.Size = UDim2.new(0.8, 0, buttonHeight, 0)
-AuthorButton.Font = Enum.Font.Gotham
-AuthorButton.Text = "作者QQ"
-AuthorButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-AuthorButton.TextSize = 14
-AuthorButton.AutoButtonColor = false
-
-local AuthorCorner = Instance.new("UICorner")
-AuthorCorner.CornerRadius = UDim.new(0, 4)
-AuthorCorner.Parent = AuthorButton
-
-local function setupButtonHover(button)
-    button.MouseEnter:Connect(function()
-        game:GetService("TweenService"):Create(
-            button,
-            TweenInfo.new(0.2),
-            {BackgroundColor3 = Color3.fromRGB(70, 70, 75)}
-        ):Play()
-    end)
-    
-    button.MouseLeave:Connect(function()
-        game:GetService("TweenService"):Create(
-            button,
-            TweenInfo.new(0.2),
-            {BackgroundColor3 = Color3.fromRGB(55, 55, 60)}
-        ):Play()
-    end)
-    
-    button.MouseButton1Down:Connect(function()
-        game:GetService("TweenService"):Create(
-            button,
-            TweenInfo.new(0.1),
-            {BackgroundColor3 = Color3.fromRGB(40, 40, 45)}
-        ):Play()
-    end)
-    
-    button.MouseButton1Up:Connect(function()
-        game:GetService("TweenService"):Create(
-            button,
-            TweenInfo.new(0.1),
-            {BackgroundColor3 = Color3.fromRGB(70, 70, 75)}
-        ):Play()
-    end)
-end
-
-setupButtonHover(FunctionButton)
-setupButtonHover(ScriptButton)
-setupButtonHover(AuthorButton)
-
-CloseButton.MouseEnter:Connect(function()
-    game:GetService("TweenService"):Create(
-        CloseButton,
-        TweenInfo.new(0.2),
-        {BackgroundColor3 = Color3.fromRGB(255, 80, 80)}
-    ):Play()
-end)
-
-CloseButton.MouseLeave:Connect(function()
-    game:GetService("TweenService"):Create(
-        CloseButton,
-        TweenInfo.new(0.2),
-        {BackgroundColor3 = Color3.fromRGB(255, 60, 60)}
-    ):Play()
-end)
-
-CloseButton.MouseButton1Click:Connect(function()
-    game:GetService("TweenService"):Create(
-        MainFrame,
-        TweenInfo.new(0.2),
-        {Size = UDim2.new(0, 0, 0, 0)}
-    ):Play()
-    wait(0.2)
-    ScreenGui:Destroy()
-end)
-
-local function clearRightPanel()
-    for _, child in ipairs(RightPanel:GetChildren()) do
-        child:Destroy()
-    end
-end
-
-local function createToggle(name, position, defaultState, callback)
-    local frame = Instance.new("Frame")
-    local label = Instance.new("TextLabel")
-    local toggle = Instance.new("TextButton")
-    
-    frame.Name = name .. "Frame"
-    frame.Parent = RightPanel
-    frame.BackgroundColor3 = Color3.fromRGB(50, 50, 55)
-    frame.BorderSizePixel = 0
-    frame.Position = position
-    frame.Size = UDim2.new(0.9, 0, 0.15, 0)
-    
-    local frameCorner = Instance.new("UICorner")
-    frameCorner.CornerRadius = UDim.new(0, 4)
-    frameCorner.Parent = frame
-    
-    label.Name = name .. "Label"
-    label.Parent = frame
-    label.BackgroundTransparency = 1.0
-    label.Position = UDim2.new(0.05, 0, 0, 0)
-    label.Size = UDim2.new(0.6, 0, 1, 0)
-    label.Font = Enum.Font.Gotham
-    label.Text = name
-    label.TextColor3 = Color3.fromRGB(255, 255, 255)
-    label.TextSize = 14
-    label.TextXAlignment = Enum.TextXAlignment.Left
-    
-    toggle.Name = name .. "Toggle"
-    toggle.Parent = frame
-    toggle.BackgroundColor3 = defaultState and Color3.fromRGB(85, 170, 85) or Color3.fromRGB(80, 80, 80)
-    toggle.Position = UDim2.new(0.7, 0, 0.2, 0)
-    toggle.Size = UDim2.new(0.25, 0, 0.6, 0)
-    toggle.Font = Enum.Font.GothamBold
-    toggle.Text = defaultState and "开启" or "关闭"
-    toggle.TextColor3 = Color3.fromRGB(255, 255, 255)
-    toggle.TextSize = 14
-    toggle.AutoButtonColor = false
-    
-    local toggleCorner = Instance.new("UICorner")
-    toggleCorner.CornerRadius = UDim.new(1, 0)
-    toggleCorner.Parent = toggle
-    
-    local state = defaultState
-    
-    toggle.MouseButton1Click:Connect(function()
-        state = not state
-        if state then
-            game:GetService("TweenService"):Create(
-                toggle,
-                TweenInfo.new(0.2),
-                {BackgroundColor3 = Color3.fromRGB(85, 170, 85)}
-            ):Play()
-            toggle.Text = "开启"
-        else
-            game:GetService("TweenService"):Create(
-                toggle,
-                TweenInfo.new(0.2),
-                {BackgroundColor3 = Color3.fromRGB(80, 80, 80)}
-            ):Play()
-            toggle.Text = "关闭"
-        end
-        callback(state)
-    end)
-    
-    return {frame = frame, toggle = toggle, state = state}
-end
-
-local function createSlider(name, position, minValue, maxValue, defaultValue, callback)
-    local frame = Instance.new("Frame")
-    local label = Instance.new("TextLabel")
-    local valueBox = Instance.new("TextBox")
-    local slider = Instance.new("Frame")
-    local fill = Instance.new("Frame")
+local function createLeftButton(name, text, position)
     local button = Instance.new("TextButton")
-    
-    frame.Name = name .. "Frame"
-    frame.Parent = RightPanel
-    frame.BackgroundColor3 = Color3.fromRGB(50, 50, 55)
-    frame.BorderSizePixel = 0
-    frame.Position = position
-    frame.Size = UDim2.new(0.9, 0, 0.15, 0)
-    
-    local frameCorner = Instance.new("UICorner")
-    frameCorner.CornerRadius = UDim.new(0, 4)
-    frameCorner.Parent = frame
-    
-    label.Name = name .. "Label"
-    label.Parent = frame
-    label.BackgroundTransparency = 1.0
-    label.Position = UDim2.new(0.05, 0, 0, 0)
-    label.Size = UDim2.new(0.4, 0, 1, 0)
-    label.Font = Enum.Font.Gotham
-    label.Text = name
-    label.TextColor3 = Color3.fromRGB(255, 255, 255)
-    label.TextSize = 14
-    label.TextXAlignment = Enum.TextXAlignment.Left
-    
-    valueBox.Name = name .. "Value"
-    valueBox.Parent = frame
-    valueBox.BackgroundColor3 = Color3.fromRGB(60, 60, 65)
-    valueBox.Position = UDim2.new(0.5, 0, 0.2, 0)
-    valueBox.Size = UDim2.new(0.2, 0, 0.6, 0)
-    valueBox.Font = Enum.Font.Gotham
-    valueBox.Text = tostring(defaultValue)
-    valueBox.TextColor3 = Color3.fromRGB(255, 255, 255)
-    valueBox.TextSize = 14
-    valueBox.ClearTextOnFocus = false
-    
-    local valueCorner = Instance.new("UICorner")
-    valueCorner.CornerRadius = UDim.new(0, 4)
-    valueCorner.Parent = valueBox
-    
-    slider.Name = name .. "Slider"
-    slider.Parent = frame
-    slider.BackgroundColor3 = Color3.fromRGB(60, 60, 65)
-    slider.Position = UDim2.new(0.75, 0, 0.35, 0)
-    slider.Size = UDim2.new(0.2, 0, 0.3, 0)
-    
-    local sliderCorner = Instance.new("UICorner")
-    sliderCorner.CornerRadius = UDim.new(1, 0)
-    sliderCorner.Parent = slider
-    
-    fill.Name = name .. "Fill"
-    fill.Parent = slider
-    fill.BackgroundColor3 = Color3.fromRGB(85, 170, 85)
-    fill.BorderSizePixel = 0
-    fill.Size = UDim2.new((defaultValue - minValue) / (maxValue - minValue), 0, 1, 0)
-    
-    local fillCorner = Instance.new("UICorner")
-    fillCorner.CornerRadius = UDim.new(1, 0)
-    fillCorner.Parent = fill
-    
-    button.Name = name .. "Button"
-    button.Parent = slider
-    button.BackgroundTransparency = 1.0
-    button.Size = UDim2.new(1, 0, 1, 0)
-    button.Text = ""
-    button.ZIndex = 2
-    
-    local dragging = false
-    local function updateValue(x)
-        local relativeX = math.clamp(x - slider.AbsolutePosition.X, 0, slider.AbsoluteSize.X)
-        local ratio = relativeX / slider.AbsoluteSize.X
-        local value = math.floor(minValue + (maxValue - minValue) * ratio + 0.5)
-        value = math.clamp(value, minValue, maxValue)
-        
-        fill.Size = UDim2.new(ratio, 0, 1, 0)
-        valueBox.Text = tostring(value)
-        callback(value)
-    end
-    
-    button.MouseButton1Down:Connect(function()
-        dragging = true
-        updateValue(game:GetService("UserInputService"):GetMouseLocation().X)
-    end)
-    
-    game:GetService("UserInputService").InputEnded:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            dragging = false
-        end
-    end)
-    
-    game:GetService("UserInputService").InputChanged:Connect(function(input)
-        if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-            updateValue(input.Position.X)
-        end
-    end)
-    
-    valueBox.FocusLost:Connect(function()
-        local num = tonumber(valueBox.Text)
-        if num then
-            num = math.clamp(num, minValue, maxValue)
-            valueBox.Text = tostring(num)
-            local ratio = (num - minValue) / (maxValue - minValue)
-            fill.Size = UDim2.new(ratio, 0, 1, 0)
-            callback(num)
-        else
-            valueBox.Text = tostring(defaultValue)
-        end
-    end)
-    
-    return {frame = frame, valueBox = valueBox, slider = slider}
+    button.Name = name
+    button.Parent = LeftButtons
+    button.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    button.BorderSizePixel = 0
+    button.Position = position
+    button.Size = UDim2.new(0.9, 0, 0, 40)
+    button.Font = Enum.Font.SourceSans
+    button.Text = text
+    button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    button.TextSize = 16
+    return button
 end
 
-FunctionButton.MouseButton1Click:Connect(function()
-    clearRightPanel()
+local functionBtn = createLeftButton("FunctionBtn", "功能", UDim2.new(0.05, 0, 0, 10))
+local scriptBtn = createLeftButton("ScriptBtn", "脚本", UDim2.new(0.05, 0, 0, 60))
+local musicBtn = createLeftButton("MusicBtn", "音乐播放", UDim2.new(0.05, 0, 0, 110))
+local authorBtn = createLeftButton("AuthorBtn", "作者QQ", UDim2.new(0.05, 0, 0, 160))
+
+local function clearRightContent()
+    for _, child in ipairs(RightContent:GetChildren()) do
+        if child.Name ~= "UIListLayout" then
+            child:Destroy()
+        end
+    end
+end
+
+functionBtn.MouseButton1Click:Connect(function()
+    clearRightContent()
     
-    local speedValue = 16
-    local speedToggle = createToggle("速度", UDim2.new(0.05, 0, 0.05, 0), false, function(state)
-        if state then
-            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = speedValue
+    local layout = Instance.new("UIListLayout")
+    layout.Parent = RightContent
+    layout.Padding = UDim.new(0, 10)
+    
+    local speedFrame = Instance.new("Frame")
+    speedFrame.Name = "SpeedFrame"
+    speedFrame.Parent = RightContent
+    speedFrame.BackgroundTransparency = 1
+    speedFrame.Size = UDim2.new(0.9, 0, 0, 30)
+    
+    local speedLabel = Instance.new("TextLabel")
+    speedLabel.Parent = speedFrame
+    speedLabel.BackgroundTransparency = 1
+    speedLabel.Size = UDim2.new(0.4, 0, 1, 0)
+    speedLabel.Font = Enum.Font.SourceSans
+    speedLabel.Text = "速度:"
+    speedLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    speedLabel.TextSize = 16
+    speedLabel.TextXAlignment = Enum.TextXAlignment.Left
+    
+    local speedSlider = Instance.new("TextBox")
+    speedSlider.Name = "SpeedSlider"
+    speedSlider.Parent = speedFrame
+    speedSlider.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    speedSlider.BorderSizePixel = 0
+    speedSlider.Position = UDim2.new(0.4, 0, 0, 0)
+    speedSlider.Size = UDim2.new(0.3, 0, 1, 0)
+    speedSlider.Font = Enum.Font.SourceSans
+    speedSlider.Text = "16"
+    speedSlider.TextColor3 = Color3.fromRGB(255, 255, 255)
+    speedSlider.TextSize = 16
+    
+    local speedToggle = Instance.new("TextButton")
+    speedToggle.Parent = speedFrame
+    speedToggle.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    speedToggle.BorderSizePixel = 0
+    speedToggle.Position = UDim2.new(0.75, 0, 0, 0)
+    speedToggle.Size = UDim2.new(0.25, 0, 1, 0)
+    speedToggle.Font = Enum.Font.SourceSans
+    speedToggle.Text = "关闭"
+    speedToggle.TextColor3 = Color3.fromRGB(255, 255, 255)
+    speedToggle.TextSize = 14
+    
+    local speedEnabled = false
+    local originalWalkSpeed = game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").WalkSpeed or 16
+    
+    speedToggle.MouseButton1Click:Connect(function()
+        speedEnabled = not speedEnabled
+        local humanoid = game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+        if humanoid then
+            if speedEnabled then
+                speedToggle.Text = "开启"
+                speedToggle.BackgroundColor3 = Color3.fromRGB(50, 150, 50)
+                humanoid.WalkSpeed = tonumber(speedSlider.Text) or 16
+            else
+                speedToggle.Text = "关闭"
+                speedToggle.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+                humanoid.WalkSpeed = originalWalkSpeed
+            end
+        end
+    end)
+    
+    speedSlider.FocusLost:Connect(function()
+        local speed = tonumber(speedSlider.Text)
+        if speed and speed > 0 then
+            if speedEnabled then
+                local humanoid = game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+                if humanoid then
+                    humanoid.WalkSpeed = speed
+                end
+            end
         else
-            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
+            speedSlider.Text = "16"
         end
     end)
     
-    local speedSlider = createSlider("", UDim2.new(0.05, 0, 0.22, 0), 16, 100, 16, function(value)
-        speedValue = value
-        if speedToggle.state then
-            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = value
-        end
-    end)
+    -- 穿墙功能
+    local noclipFrame = Instance.new("Frame")
+    noclipFrame.Name = "NoclipFrame"
+    noclipFrame.Parent = RightContent
+    noclipFrame.BackgroundTransparency = 1
+    noclipFrame.Size = UDim2.new(0.9, 0, 0, 30)
     
-    local noclipLoop
-    createToggle("穿墙", UDim2.new(0.05, 0, 0.39, 0), false, function(state)
-        if state then
-            noclipLoop = game:GetService("RunService").Stepped:Connect(function()
+    local noclipLabel = Instance.new("TextLabel")
+    noclipLabel.Parent = noclipFrame
+    noclipLabel.BackgroundTransparency = 1
+    noclipLabel.Size = UDim2.new(0.6, 0, 1, 0)
+    noclipLabel.Font = Enum.Font.SourceSans
+    noclipLabel.Text = "穿墙"
+    noclipLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    noclipLabel.TextSize = 16
+    noclipLabel.TextXAlignment = Enum.TextXAlignment.Left
+    
+    local noclipToggle = Instance.new("TextButton")
+    noclipToggle.Parent = noclipFrame
+    noclipToggle.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    noclipToggle.BorderSizePixel = 0
+    noclipToggle.Position = UDim2.new(0.65, 0, 0, 0)
+    noclipToggle.Size = UDim2.new(0.3, 0, 1, 0)
+    noclipToggle.Font = Enum.Font.SourceSans
+    noclipToggle.Text = "关闭"
+    noclipToggle.TextColor3 = Color3.fromRGB(255, 255, 255)
+    noclipToggle.TextSize = 14
+    
+    local noclipEnabled = false
+    local noclipConnection
+    
+    noclipToggle.MouseButton1Click:Connect(function()
+        noclipEnabled = not noclipEnabled
+        if noclipEnabled then
+            noclipToggle.Text = "开启"
+            noclipToggle.BackgroundColor3 = Color3.fromRGB(50, 150, 50)
+            
+            if noclipConnection then noclipConnection:Disconnect() end
+            
+            noclipConnection = game:GetService("RunService").Stepped:Connect(function()
                 if game.Players.LocalPlayer.Character then
-                    for _, part in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
-                        if part:IsA("BasePart") then
-                            part.CanCollide = false
+                    for _, child in ipairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+                        if child:IsA("BasePart") and child.CanCollide then
+                            child.CanCollide = false
                         end
                     end
                 end
             end)
         else
-            if noclipLoop then
-                noclipLoop:Disconnect()
+            noclipToggle.Text = "关闭"
+            noclipToggle.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+            
+            if noclipConnection then
+                noclipConnection:Disconnect()
+                noclipConnection = nil
+            end
+            
+            if game.Players.LocalPlayer.Character then
+                for _, child in ipairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+                    if child:IsA("BasePart") then
+                        child.CanCollide = true
+                    end
+                end
             end
         end
     end)
     
+    -- 无限跳功能
+    local infJumpFrame = Instance.new("Frame")
+    infJumpFrame.Name = "InfJumpFrame"
+    infJumpFrame.Parent = RightContent
+    infJumpFrame.BackgroundTransparency = 1
+    infJumpFrame.Size = UDim2.new(0.9, 0, 0, 30)
+    
+    local infJumpLabel = Instance.new("TextLabel")
+    infJumpLabel.Parent = infJumpFrame
+    infJumpLabel.BackgroundTransparency = 1
+    infJumpLabel.Size = UDim2.new(0.6, 0, 1, 0)
+    infJumpLabel.Font = Enum.Font.SourceSans
+    infJumpLabel.Text = "无限跳"
+    infJumpLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    infJumpLabel.TextSize = 16
+    infJumpLabel.TextXAlignment = Enum.TextXAlignment.Left
+    
+    local infJumpToggle = Instance.new("TextButton")
+    infJumpToggle.Parent = infJumpFrame
+    infJumpToggle.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    infJumpToggle.BorderSizePixel = 0
+    infJumpToggle.Position = UDim2.new(0.65, 0, 0, 0)
+    infJumpToggle.Size = UDim2.new(0.3, 0, 1, 0)
+    infJumpToggle.Font = Enum.Font.SourceSans
+    infJumpToggle.Text = "关闭"
+    infJumpToggle.TextColor3 = Color3.fromRGB(255, 255, 255)
+    infJumpToggle.TextSize = 14
+    
+    local infJumpEnabled = false
     local infJumpConnection
-    createToggle("无限跳", UDim2.new(0.05, 0, 0.56, 0), false, function(state)
-        if state then
+    
+    infJumpToggle.MouseButton1Click:Connect(function()
+        infJumpEnabled = not infJumpEnabled
+        if infJumpEnabled then
+            infJumpToggle.Text = "开启"
+            infJumpToggle.BackgroundColor3 = Color3.fromRGB(50, 150, 50)
+            
+            if infJumpConnection then infJumpConnection:Disconnect() end
+            
             infJumpConnection = game:GetService("UserInputService").JumpRequest:Connect(function()
-                if game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
-                    game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping")
+                if game.Players.LocalPlayer.Character then
+                    local humanoid = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+                    if humanoid then
+                        humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+                    end
                 end
             end)
         else
+            infJumpToggle.Text = "关闭"
+            infJumpToggle.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+            
             if infJumpConnection then
                 infJumpConnection:Disconnect()
+                infJumpConnection = nil
             end
         end
     end)
     
-    FunctionButton.BackgroundColor3 = Color3.fromRGB(70, 70, 80)
-    ScriptButton.BackgroundColor3 = Color3.fromRGB(55, 55, 60)
-    AuthorButton.BackgroundColor3 = Color3.fromRGB(55, 55, 60)
-end)
-
-AuthorButton.MouseButton1Click:Connect(function()
-    clearRightPanel()
+    local aimbotFrame = Instance.new("Frame")
+    aimbotFrame.Name = "AimbotFrame"
+    aimbotFrame.Parent = RightContent
+    aimbotFrame.BackgroundTransparency = 1
+    aimbotFrame.Size = UDim2.new(0.9, 0, 0, 30)
     
-    local authorFrame = Instance.new("Frame")
-    authorFrame.Name = "AuthorFrame"
-    authorFrame.Parent = RightPanel
-    authorFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 55)
-    authorFrame.BorderSizePixel = 0
-    authorFrame.Position = UDim2.new(0.05, 0, 0.2, 0)
-    authorFrame.Size = UDim2.new(0.9, 0, 0.6, 0)
+    local aimbotLabel = Instance.new("TextLabel")
+    aimbotLabel.Parent = aimbotFrame
+    aimbotLabel.BackgroundTransparency = 1
+    aimbotLabel.Size = UDim2.new(0.6, 0, 1, 0)
+    aimbotLabel.Font = Enum.Font.SourceSans
+    aimbotLabel.Text = "自瞄"
+    aimbotLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    aimbotLabel.TextSize = 16
+    aimbotLabel.TextXAlignment = Enum.TextXAlignment.Left
     
-    local frameCorner = Instance.new("UICorner")
-    frameCorner.CornerRadius = UDim.new(0, 6)
-    frameCorner.Parent = authorFrame
+    local aimbotToggle = Instance.new("TextButton")
+    aimbotToggle.Parent = aimbotFrame
+    aimbotToggle.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    aimbotToggle.BorderSizePixel = 0
+    aimbotToggle.Position = UDim2.new(0.65, 0, 0, 0)
+    aimbotToggle.Size = UDim2.new(0.3, 0, 1, 0)
+    aimbotToggle.Font = Enum.Font.SourceSans
+    aimbotToggle.Text = "关闭"
+    aimbotToggle.TextColor3 = Color3.fromRGB(255, 255, 255)
+    aimbotToggle.TextSize = 14
     
-    local authorLabel = Instance.new("TextLabel")
-    authorLabel.Name = "AuthorLabel"
-    authorLabel.Parent = authorFrame
-    authorLabel.BackgroundTransparency = 1.0
-    authorLabel.Position = UDim2.new(0.1, 0, 0.2, 0)
-    authorLabel.Size = UDim2.new(0.8, 0, 0.6, 0)
-    authorLabel.Font = Enum.Font.Gotham
-    authorLabel.Text = "作者QQ: 511651251\n\nQQ群: 未创建"
-    authorLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-    authorLabel.TextSize = 16
-    authorLabel.TextYAlignment = Enum.TextYAlignment.Top
+    local aimbotEnabled = false
+    local aimbotConnection
     
-    AuthorButton.BackgroundColor3 = Color3.fromRGB(70, 70, 80)
-    FunctionButton.BackgroundColor3 = Color3.fromRGB(55, 55, 60)
-    ScriptButton.BackgroundColor3 = Color3.fromRGB(55, 55, 60)
-end)
-
-ScriptButton.MouseButton1Click:Connect(function()
-    clearRightPanel()
-    
-    local scriptFrame = Instance.new("Frame")
-    scriptFrame.Name = "ScriptFrame"
-    scriptFrame.Parent = RightPanel
-    scriptFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 55)
-    scriptFrame.BorderSizePixel = 0
-    scriptFrame.Position = UDim2.new(0.05, 0, 0.2, 0)
-    scriptFrame.Size = UDim2.new(0.9, 0, 0.6, 0)
-    
-    local frameCorner = Instance.new("UICorner")
-    frameCorner.CornerRadius = UDim.new(0, 6)
-    frameCorner.Parent = scriptFrame
-    
-    local scriptLabel = Instance.new("TextLabel")
-    scriptLabel.Name = "ScriptLabel"
-    scriptLabel.Parent = scriptFrame
-    scriptLabel.BackgroundTransparency = 1.0
-    scriptLabel.Position = UDim2.new(0.1, 0, 0.1, 0)
-    scriptLabel.Size = UDim2.new(0.8, 0, 0.4, 0)
-    scriptLabel.Font = Enum.Font.Gotham
-    scriptLabel.Text = "XK脚本中心"
-    scriptLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-    scriptLabel.TextSize = 18
-    
-    local executeButton = Instance.new("TextButton")
-    executeButton.Name = "ExecuteButton"
-    executeButton.Parent = scriptFrame
-    executeButton.BackgroundColor3 = Color3.fromRGB(85, 170, 85)
-    executeButton.Position = UDim2.new(0.2, 0, 0.6, 0)
-    executeButton.Size = UDim2.new(0.6, 0, 0.25, 0)
-    executeButton.Font = Enum.Font.GothamBold
-    executeButton.Text = "执行脚本"
-    executeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    executeButton.TextSize = 14
-    executeButton.AutoButtonColor = false
-    
-    local buttonCorner = Instance.new("UICorner")
-    buttonCorner.CornerRadius = UDim.new(0, 4)
-    buttonCorner.Parent = executeButton
-    
-    executeButton.MouseEnter:Connect(function()
-        game:GetService("TweenService"):Create(
-            executeButton,
-            TweenInfo.new(0.2),
-            {BackgroundColor3 = Color3.fromRGB(100, 200, 100)}
-        ):Play()
+    aimbotToggle.MouseButton1Click:Connect(function()
+        aimbotEnabled = not aimbotEnabled
+        if aimbotEnabled then
+            aimbotToggle.Text = "开启"
+            aimbotToggle.BackgroundColor3 = Color3.fromRGB(50, 150, 50)
+            
+            if aimbotConnection then aimbotConnection:Disconnect() end
+            
+            aimbotConnection = game:GetService("RunService").RenderStepped:Connect(function()
+                local player = game.Players.LocalPlayer
+                local character = player.Character
+                if not character then return end
+                
+                local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+                if not humanoidRootPart then return end
+                
+                local closestPlayer, closestDistance = nil, math.huge
+                
+                for _, otherPlayer in ipairs(game.Players:GetPlayers()) do
+                    if otherPlayer ~= player and otherPlayer.Character then
+                        local otherCharacter = otherPlayer.Character
+                        local otherHumanoidRootPart = otherCharacter:FindFirstChild("HumanoidRootPart")
+                        if otherHumanoidRootPart then
+                            local distance = (humanoidRootPart.Position - otherHumanoidRootPart.Position).Magnitude
+                            if distance < closestDistance then
+                                closestDistance = distance
+                                closestPlayer = otherPlayer
+                            end
+                        end
+                    end
+                end
+                
+                if closestPlayer and closestPlayer.Character then
+                    local target = closestPlayer.Character:FindFirstChild("HumanoidRootPart")
+                    if target then
+                        game:GetService("Workspace").CurrentCamera.CFrame = CFrame.new(
+                            game:GetService("Workspace").CurrentCamera.CFrame.Position,
+                            target.Position
+                        )
+                    end
+                end
+            end)
+        else
+            aimbotToggle.Text = "关闭"
+            aimbotToggle.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+            
+            if aimbotConnection then
+                aimbotConnection:Disconnect()
+                aimbotConnection = nil
+            end
+        end
     end)
     
-    executeButton.MouseLeave:Connect(function()
-        game:GetService("TweenService"):Create(
-            executeButton,
-            TweenInfo.new(0.2),
-            {BackgroundColor3 = Color3.fromRGB(85, 170, 85)}
-        ):Play()
-    end)
+    local espFrame = Instance.new("Frame")
+    espFrame.Name = "EspFrame"
+    espFrame.Parent = RightContent
+    espFrame.BackgroundTransparency = 1
+    espFrame.Size = UDim2.new(0.9, 0, 0, 30)
     
-    executeButton.MouseButton1Click:Connect(function()
-        loadstring(game:HttpGet('https://github.com/devslopo/DVES/raw/main/XK%20Hub'))()
-    end)
+    local espLabel = Instance.new("TextLabel")
+    espLabel.Parent = espFrame
+    espLabel.BackgroundTransparency = 1
+    espLabel.Size = UDim2.new(0.6, 0, 1, 0)
+    espLabel.Font = Enum.Font.SourceSans
+    espLabel.Text = "透视"
+    espLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    espLabel.TextSize = 16
+    espLabel.TextXAlignment = Enum.TextXAlignment.Left
     
-    ScriptButton.BackgroundColor3 = Color3.fromRGB(70, 70, 80)
-    FunctionButton.BackgroundColor3 = Color3.fromRGB(55, 55, 60)
-    AuthorButton.BackgroundColor3 = Color3.fromRGB(55, 55, 60)
+    local espToggle = Instance.new("TextButton")
+    espToggle.Parent = espFrame
+    espToggle.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    espToggle.BorderSizePixel = 0
+    espToggle.Position = UDim2.new(0.65, 0, 0, 0)
+    espToggle.Size = UDim2.new(0.3, 0, 1, 0)
+    espToggle.Font = Enum.Font.SourceSans
+    espToggle.Text = "关闭"
+    espToggle.TextColor3 = Color3.fromRGB(255, 255, 255)
+    espToggle.TextSize = 14
+    
+    local espEnabled = false
+    local espBoxes = {}
+    
+    local function createEsp(player)
+        if espBoxes[player] then return end
+        
+        local box = Instance.new("BoxHandleAdornment")
+        box.Name = player.Name.."_ESP"
+        box.Adornee = nil
+        box.AlwaysOnTop = true
+        box.ZIndex = 10
+        box.Size = Vector3.new(4, 6, 4)
+        box.Color3 = Color3.fromRGB(255, 0, 0)
+        box.Transparency = 0.5
+        box.Parent = game:GetService("CoreGui")
+        
+        espBoxes[player] = box
+        
+        local function updateEsp()
+            if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+                box.Adornee = player.Character.HumanoidRootPart
+                box.Visible = true
+            else
+                box.Adornee = nil
+                box.Visible = false
+            end
+        end
+        
+        player.CharacterAdded:Connect(function(character)
+            wait(1) 
+            updateEsp()
+        end)
+        
+        updateEsp()
+    end
+    
+    local function removeEsp(player)
+        if espBoxes[player] then
+            espBoxes[player]:Destroy()
+            espBoxes[player] = nil
+        end
+    end
+    
+    espToggle.MouseButton1Click:Connect(function()
+        espEnabled = not espEnabled
+        if espEnabled then
+            espToggle.Text = "开启"
+            espToggle.BackgroundColor3 = Color3.fromRGB(50, 150, 50)
+            
+            for _, player in ipairs(game:GetService("Players"):GetPlayers()) do
+                if player ~= game.Players.LocalPlayer then
+                    createEsp(player)
+                end
+            end
+            
+            game:GetService("Players").PlayerAdded:Connect(function(player)
+                createEsp(player)
+            end)
+            
+            game:GetService("Players").PlayerRemoving:Connect(function(player)
+                removeEsp(player)
+            end)
+        else
+            espToggle.Text = "关闭"
+            espToggle.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+            
+            for player, box in pairs(espBoxes) do
+                box:Destroy()
+            end
+            espBoxes = {}
+        end
+    end)
 end)
 
-FunctionButton:FindFirstChild("MouseButton1Click"):Fire()
+scriptBtn.MouseButton1Click:Connect(function()
+    clearRightContent()
+    
+    local layout = Instance.new("UIListLayout")
+    layout.Parent = RightContent
+    layout.Padding = UDim.new(0, 10)
+    
+    local function createScriptButton(name, text, position, scriptToExecute)
+        local button = Instance.new("TextButton")
+        button.Name = name
+        button.Parent = RightContent
+        button.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+        button.BorderSizePixel = 0
+        button.Position = position
+        button.Size = UDim2.new(0.9, 0, 0, 40)
+        button.Font = Enum.Font.SourceSans
+        button.Text = text
+        button.TextColor3 = Color3.fromRGB(255, 255, 255)
+        button.TextSize = 16
+        
+        button.MouseButton1Click:Connect(function()
+            local success, err = pcall(function()
+                loadstring(scriptToExecute)()
+            end)
+            if not success then
+                warn("执行脚本错误: " .. err)
+            end
+        end)
+    end
+    
+    createScriptButton("XKScript", "XK脚本中心", UDim2.new(0.05, 0, 0, 10), 
+        [[loadstring(game:HttpGet('https://github.com/devslopo/DVES/raw/main/XK%20Hub'))()]])
+    
+    createScriptButton("InkGame", "墨水游戏", UDim2.new(0.05, 0, 0, 60), 
+        [[loadstring(game:HttpGet("https://raw.githubusercontent.com/wefwef127382/inkgames.github.io/refs/heads/main/ringta.lua"))()]])
+end)
 
-MainFrame.Size = UDim2.new(0, 0, 0, 0)
-game:GetService("TweenService"):Create(
-    MainFrame,
-    TweenInfo.new(0.3),
-    {Size = UDim2.new(0, 350, 0, 250)}
-):Play()
+-- 音乐页面
+musicBtn.MouseButton1Click:Connect(function()
+    clearRightContent()
+    
+    local layout = Instance.new("UIListLayout")
+    layout.Parent = RightContent
+    layout.Padding = UDim.new(0, 10)
+    
+    local sound = Instance.new("Sound")
+    sound.Parent = workspace
+    sound.Looped = true
+    
+    local idBox = Instance.new("TextBox")
+    idBox.Name = "MusicIdBox"
+    idBox.Parent = RightContent
+    idBox.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    idBox.BorderSizePixel = 0
+    idBox.Position = UDim2.new(0.05, 0, 0, 10)
+    idBox.Size = UDim2.new(0.9, 0, 0, 30)
+    idBox.Font = Enum.Font.SourceSans
+    idBox.PlaceholderText = "输入音乐ID"
+    idBox.Text = ""
+    idBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+    idBox.TextSize = 16
+    
+    local playButton = Instance.new("TextButton")
+    playButton.Name = "PlayButton"
+    playButton.Parent = RightContent
+    playButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    playButton.BorderSizePixel = 0
+    playButton.Position = UDim2.new(0.05, 0, 0, 50)
+    playButton.Size = UDim2.new(0.4, 0, 0, 30)
+    playButton.Font = Enum.Font.SourceSans
+    playButton.Text = "播放"
+    playButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    playButton.TextSize = 16
+    
+    local pauseButton = Instance.new("TextButton")
+    pauseButton.Name = "PauseButton"
+    pauseButton.Parent = RightContent
+    pauseButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    pauseButton.BorderSizePixel = 0
+    pauseButton.Position = UDim2.new(0.55, 0, 0, 50)
+    pauseButton.Size = UDim2.new(0.4, 0, 0, 30)
+    pauseButton.Font = Enum.Font.SourceSans
+    pauseButton.Text = "暂停"
+    pauseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    pauseButton.TextSize = 16
+    
+    local volumeLabel = Instance.new("TextLabel")
+    volumeLabel.Name = "VolumeLabel"
+    volumeLabel.Parent = RightContent
+    volumeLabel.BackgroundTransparency = 1
+    volumeLabel.Position = UDim2.new(0.05, 0, 0, 90)
+    volumeLabel.Size = UDim2.new(0.3, 0, 0, 20)
+    volumeLabel.Font = Enum.Font.SourceSans
+    volumeLabel.Text = "音量:"
+    volumeLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    volumeLabel.TextSize = 16
+    volumeLabel.TextXAlignment = Enum.TextXAlignment.Left
+    
+    local volumeSlider = Instance.new("TextBox")
+    volumeSlider.Name = "VolumeSlider"
+    volumeSlider.Parent = RightContent
+    volumeSlider.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    volumeSlider.BorderSizePixel = 0
+    volumeSlider.Position = UDim2.new(0.35, 0, 0, 90)
+    volumeSlider.Size = UDim2.new(0.6, 0, 0, 20)
+    volumeSlider.Font = Enum.Font.SourceSans
+    volumeSlider.Text = "0.5"
+    volumeSlider.TextColor3 = Color3.fromRGB(255, 255, 255)
+    volumeSlider.TextSize = 16
+    
+    playButton.MouseButton1Click:Connect(function()
+        if idBox.Text ~= "" then
+            sound.SoundId = "rbxassetid://" .. idBox.Text
+            sound:Play()
+        end
+    end)
+    
+    pauseButton.MouseButton1Click:Connect(function()
+        if sound.IsPlaying then
+            sound:Pause()
+            pauseButton.Text = "继续"
+        else
+            sound:Play()
+            pauseButton.Text = "暂停"
+        end
+    end)
+    
+    volumeSlider.FocusLost:Connect(function()
+        local volume = tonumber(volumeSlider.Text)
+        if volume and volume >= 0 and volume <= 1 then
+            sound.Volume = volume
+        else
+            volumeSlider.Text = tostring(sound.Volume)
+        end
+    end)
+end)
+
+authorBtn.MouseButton1Click:Connect(function()
+    clearRightContent()
+    
+    local layout = Instance.new("UIListLayout")
+    layout.Parent = RightContent
+    layout.Padding = UDim.new(0, 10)
+    
+    local qqLabel = Instance.new("TextLabel")
+    qqLabel.Name = "QQLabel"
+    qqLabel.Parent = RightContent
+    qqLabel.BackgroundTransparency = 1
+    qqLabel.Position = UDim2.new(0.05, 0, 0, 10)
+    qqLabel.Size = UDim2.new(0.9, 0, 0, 30)
+    qqLabel.Font = Enum.Font.SourceSans
+    qqLabel.Text = "作者QQ: 511651251"
+    qqLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    qqLabel.TextSize = 16
+    qqLabel.TextXAlignment = Enum.TextXAlignment.Left
+    
+    local groupLabel = Instance.new("TextLabel")
+    groupLabel.Name = "GroupLabel"
+    groupLabel.Parent = RightContent
+    groupLabel.BackgroundTransparency = 1
+    groupLabel.Position = UDim2.new(0.05, 0, 0, 50)
+    groupLabel.Size = UDim2.new(0.9, 0, 0, 30)
+    groupLabel.Font = Enum.Font.SourceSans
+    groupLabel.Text = "QQ群: 未创建"
+    groupLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    groupLabel.TextSize = 16
+    groupLabel.TextXAlignment = Enum.TextXAlignment.Left
+end)
+
+local isClosed = false
+local originalSize = MainFrame.Size
+
+CloseButton.MouseButton1Click:Connect(function()
+    isClosed = not isClosed
+    if isClosed then
+        MainFrame.Size = UDim2.new(0, 100, 0, 30)
+        RightContent.Visible = false
+        LeftButtons.Visible = false
+        CloseButton.Text = "+"
+    else
+        MainFrame.Size = originalSize
+        RightContent.Visible = true
+        LeftButtons.Visible = true
+        CloseButton.Text = "X"
+    end
+end)
+
+functionBtn:Activate()
